@@ -1,4 +1,3 @@
-// File: client/src/App.tsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -33,7 +32,6 @@ interface Playlist {
 
 const App = () => {
   const frontPort = 'https://music-playlist-backend-production.up.railway.app/'
-  // music-playlist-backend.railway.internal
   const [tab, setTab] = useState(0);
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
@@ -58,7 +56,7 @@ const App = () => {
   };
 
   const fetchPlaylists = async () => {
-    const res = await axios.get(`${frontPort}api/api/playlists`, {
+    const res = await axios.get(`${frontPort}api/playlists`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setPlaylists(res.data);
@@ -118,11 +116,9 @@ const App = () => {
   }, [token]);
 
   useEffect(() => {
-
     if (tab === 1) {
       fetchPlaylists();
     }
-
   }, [tab])
 
   return (
@@ -195,26 +191,26 @@ const App = () => {
               Your Playlists
             </Typography>
             {playlists.map((p) => (
-  <Card key={p._id} sx={{ my: 2 }}>
-    <CardContent>
-      <Typography variant="h6">{p.name}</Typography>
-      <Typography variant="body2">{p.description}</Typography>
+              <Card key={p._id} sx={{ my: 2 }}>
+                <CardContent>
+                  <Typography variant="h6">{p.name}</Typography>
+                  <Typography variant="body2">{p.description}</Typography>
 
-      {/* Songs list */}
-      {p.songs && p.songs.length > 0 && (
-        <>
-          <Typography variant="subtitle1" sx={{ mt: 2 }}>
-            Songs in Playlist:
-          </Typography>
-          {p.songs.map((song, index) => (
-            <Box key={index} sx={{ mb: 1, pl: 2 }}>
-              <Typography variant="body2">
-                {song.name} — {song.artist} ({song.album})
-              </Typography>
-            </Box>
-          ))}
-        </>
-      )}
+                  {/* Songs list */}
+                  {p.songs && p.songs.length > 0 && (
+                    <>
+                      <Typography variant="subtitle1" sx={{ mt: 2 }}>
+                        Songs in Playlist:
+                      </Typography>
+                      {p.songs.map((song, index) => (
+                        <Box key={index} sx={{ mb: 1, pl: 2 }}>
+                          <Typography variant="body2">
+                            {song.name} — {song.artist} ({song.album})
+                          </Typography>
+                        </Box>
+                      ))}
+                    </>
+                  )}
 
       <Button onClick={() => deletePlaylist(p._id)} sx={{ mt: 1 }} color="error">
         Delete
